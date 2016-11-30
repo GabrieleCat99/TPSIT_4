@@ -1,0 +1,56 @@
+/******************************************************************************
+
+ Alunno: Gabriele Catasta                                      Data: 23/11/2016
+
+ Classe: 4°INA
+
+ Testo del problema: Realizzare un codice che, inserito un numero compreso tra
+                     1 e 5, effettui la funzione "fork" tante volte quanto il
+                     valore del numero preso in considerazione. Stampare il PID
+                     e il PID del padre.
+
+ ******************************************************************************/
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+
+main(){
+
+    // Dichiarazione processo;
+    pid_t pid;  
+    
+    // Dichiarazione variabili;
+    int n, i;
+    
+    /* Inserimento di n, per cui il numero dei processi dipende da 2
+       elevato alla n; */
+    do {
+        printf("\n Inserire un numero compreso tra 1 e 5: ");
+        scanf("%d",&n);
+    }
+    while((n<1)||(n>5));
+    
+    // Stampa del processo iniziale;
+    printf("\n Padre: il mio PID e' %d \n",getpid());
+
+    for(i=1;i<=n;i++){
+    
+        // Generazione di un processo figlio;
+        pid=fork();
+        
+        // Se il processo è un "figlio" il suo pid viene stampato;
+        if(pid==0){
+        
+            /* Attesa di 1 per cui il padre termina prima dei figli
+               e quest'ultimi restano orfani */
+            sleep(1);
+            printf(" PID figlio: %d PID padre: %d \n",getpid(), getppid());
+        }
+    }
+    
+    // Uscita dal processo;
+    exit;
+}
