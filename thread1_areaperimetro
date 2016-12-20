@@ -1,0 +1,70 @@
+/*****************************************************************************
+
+ Alunno: Gabriele Catasta
+ 
+ Classe: 4°INA
+ 
+ Testo del problema: Creare due thread affinché, inserite la base e l'altezza
+                     di un rettangolo, si calcoli l'area ed il perimetro
+                     relativi a quest'ultimo.
+                     
+ *****************************************************************************/
+
+// Dichiarazione librerie;
+
+#include<stdio.h>
+#include<pthread.h>
+
+// Dichiarazione variabili globali (base ed altezza);
+
+int b, h;
+
+// Dichiarazione funzione calcolo area;
+
+void *area(void *arg){
+	int area;
+	area=(b*h);
+	printf("\n Il valore dell'area e': %d\n",area);
+}
+
+// Dichiarazione funzione calcolo perimetro;
+
+void *perimetro(void *arg){
+	int per;
+	per=(b+h)*2;
+	printf("\n Il valore del perimetro e': %d\n",per);
+}
+
+// INIZIO PROGRAMMA;
+
+int main(void){
+	
+	// Dichiarazione thread;
+	
+	pthread_t tID1;
+	pthread_t tID2;
+	
+	// Input della base con controllo;
+	
+	do {
+		printf("\n Inserire il valore della base (maggiore di 0): ");
+		scanf("%d",&b);
+	}
+	while(b<=0);
+	
+	// Input dell'altezza con controllo;
+	
+	do {
+		printf("\n Inserire il valore dell'altezza (maggiore di 0): ");
+		scanf("%d",&h);
+	}
+	while(h<=0);
+	
+	// Creazione dei thread;
+	
+	pthread_create(&tID1, NULL, &perimetro, NULL);
+	pthread_create(&tID2, NULL, &area, NULL);
+	return 0;
+}
+
+// FINE PROGRAMMA;
